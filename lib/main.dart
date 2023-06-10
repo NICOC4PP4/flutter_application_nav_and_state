@@ -7,9 +7,9 @@ import 'package:redux/redux.dart';
 enum Actions { Increment, Decrement }
 
 int counterReducer(int state, dynamic action) {
-  if (action == Actions.Increment) {
+  if (action is IncrementAction) {
     return state + 1;
-  } else if (action == Actions.Decrement) {
+  } else if (action is DecrementAction) {
     return state - 1;
   }
   return state;
@@ -31,59 +31,29 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreProvider(
-      store: store,
-      child: MaterialApp(
+    return MaterialApp(
+      title: 'My App',
+      home: Navigator(
         onGenerateRoute: (settings) {
-          if (settings.name == '/profile') {
-            return MaterialPageRoute(builder: (context) {
-              return const ProfileScreen();
-            });
-          } else if (settings.name == '/home') {
-            return MaterialPageRoute(builder: (context) {
-              return const HomeScreen();
-            });
+          switch (settings.name) {
+            case '/home':
+              return MaterialPageRoute(builder: (context) => HomeScreen());
+            case '/profile':
+              return MaterialPageRoute(builder: (context) => ProfileScreen());
+            default:
+              return null;
           }
-          return null;
         },
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Home Screen'),
-          ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              StoreConnector<int, String>(
-                converter: (store) => store.state.toString(),
-                builder: (context, count) {
-                  return Text(
-                    count,
-                    style: const TextStyle(fontSize: 24),
-                  );
-                },
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  store.dispatch(Actions.Increment);
-                },
-                child: const Text('Increment'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  store.dispatch(Actions.Decrement);
-                },
-                child: const Text('Decrement'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/profile');
-                },
-                child: const Text('Go to Profile Screen'),
-              ),
-            ],
-          ),
-        ),
+        initialRoute: '/home',
       ),
     );
   }
+}
+
+class IncrementAction {
+  IncrementAction();
+}
+
+class DecrementAction {
+  DecrementAction();
 }
