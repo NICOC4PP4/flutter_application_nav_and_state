@@ -14,7 +14,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: const Text('Profile Screen'),
       ),
-      body: Container(),
+      body: Container(
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/home');
+            },
+            child: const Text('Go to Home Screen'),
+          ),
+        ),
+      ),
     );
   }
 }

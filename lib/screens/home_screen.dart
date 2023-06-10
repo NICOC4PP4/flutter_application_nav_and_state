@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Center(
           child: ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/second');
+              Navigator.pushNamed(context, '/profile');
             },
             child: const Text('Go to Profile Screen'),
           ),
